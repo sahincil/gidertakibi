@@ -331,65 +331,135 @@
     .bottom-grid { grid-template-columns: 1fr; }
   }
 
+  /* ── Mobil kart görünümü (table yerine) ── */
+  .record-cards { display: none; }
+
   @media (max-width: 600px) {
-    body { padding: 12px 10px; }
+    /* Genel */
+    body { padding: 10px 8px; overflow-x: hidden; }
+    * { max-width: 100%; }
 
     /* Header */
-    .page-title { font-size: 1.1rem; }
-    #themeBtn { padding: 7px 10px; font-size: .78rem; }
+    .page-title { font-size: 1rem; }
+    #themeBtn { padding: 6px 10px; font-size: .75rem; gap: 4px; }
 
-    /* Cards: tek sütun, kompakt */
-    .cards { grid-template-columns: 1fr; gap: 10px; margin-bottom: 12px; }
-    .card { padding: 14px 16px; }
-    .card-value { font-size: 1.25rem; }
-    .card-icon { width: 38px; height: 38px; font-size: 1.2rem; }
+    /* Cards: 2 sütun grid */
+    .cards { grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+    .cards .card:last-child { grid-column: 1 / -1; }
+    .card { padding: 12px 14px; border-radius: 12px; }
+    .card-value { font-size: 1.1rem; letter-spacing: -.5px; }
+    .card-label { font-size: .72rem; }
+    .card-icon { width: 34px; height: 34px; font-size: 1rem; }
 
     /* Panel */
-    .panel { padding: 14px 12px; }
-    .panel-title { font-size: .95rem; }
+    .panel { padding: 12px 10px; border-radius: 12px; margin-bottom: 10px; }
+    .panel-title { font-size: .9rem; margin-bottom: 10px; }
 
-    /* Filter row: dikey yığın */
-    .filter-top { flex-direction: column; align-items: stretch; gap: 8px; }
-    .search-box { max-width: 100%; }
-    .btn-group { flex-wrap: wrap; }
-    .btn-group .btn { flex: 1; text-align: center; font-size: .78rem; padding: 8px 6px; }
-    .filter-row { flex-direction: column; align-items: stretch; gap: 8px; }
-    .filter-row label { margin-bottom: -4px; }
-    .filter-row input[type="date"],
-    .filter-row select { width: 100%; }
-    .filter-row .range-wrap { display: flex; gap: 6px; }
-    .filter-row input[type="number"] { width: 100%; }
-    .btn-gray { width: 100%; }
-
-    /* Bottom grid: tek sütun */
-    .bottom-grid { grid-template-columns: 1fr; gap: 12px; }
-
-    /* Chart: dikey */
-    .chart-wrap { flex-direction: column; align-items: center; gap: 14px; }
-    .chart-canvas-wrap { width: 200px; height: 200px; }
-    .legend {
-      grid-template-columns: repeat(2, 1fr);
-      max-height: 160px;
-      width: 100%;
+    /* Filter: tam dikey yığın */
+    .filter-top { flex-direction: column; gap: 8px; }
+    .search-box { max-width: 100%; width: 100%; }
+    .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .btn-group .btn { font-size: .8rem; padding: 10px 6px; text-align: center; border-radius: 10px; }
+    .filter-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      align-items: center;
     }
+    .filter-row label { font-size: .78rem; grid-column: span 2; margin-bottom: -2px; }
+    .filter-row label:nth-of-type(1) { grid-column: 1; }
+    .filter-row label:nth-of-type(2) { grid-column: 2; }
+    .filter-row input[type="date"] { width: 100%; font-size: .82rem; }
+    .filter-row select { width: 100%; font-size: .82rem; }
+    .filter-row .range-wrap { grid-column: span 2; display: flex; gap: 6px; }
+    .filter-row .range-wrap input { width: 100%; font-size: .82rem; }
+    .btn-gray { grid-column: span 2; width: 100%; }
+
+    /* Bottom grid */
+    .bottom-grid { grid-template-columns: 1fr; gap: 10px; }
+
+    /* Chart */
+    .chart-wrap { flex-direction: column; align-items: center; gap: 12px; }
+    .chart-canvas-wrap { width: 180px; height: 180px; }
+    .legend { grid-template-columns: repeat(2,1fr); max-height: 150px; width: 100%; }
+    .legend-item { font-size: .74rem; }
 
     /* Form */
-    .form-panel .form-group input,
-    .form-panel .form-group select,
-    .form-panel .form-group textarea { font-size: 1rem; padding: 10px 12px; }
-    .btn-full { padding: 13px; font-size: 1rem; }
+    .form-group { margin-bottom: 10px; }
+    .form-group label { font-size: .82rem; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea { font-size: 1rem; padding: 11px 12px; border-radius: 10px; }
+    .btn-full { padding: 14px; font-size: 1rem; border-radius: 12px; }
 
-    /* Table: horizontal scroll + compact */
-    .table-wrap { margin-top: 10px; }
-    table { font-size: .78rem; }
-    th, td { padding: 8px 8px; }
+    /* Tablo → SAKLA, kart görünümü göster */
+    .table-wrap table { display: none; }
+    #pagination { display: none; }
+    .record-cards { display: block; }
 
-    /* Pagination */
-    .pagination { gap: 4px; padding: 10px 0; }
-    .pg-btn { min-width: 30px; height: 30px; font-size: .75rem; padding: 0 6px; }
+    /* Kayıt kartları */
+    .rec-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      box-shadow: var(--shadow);
+    }
+    .rec-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+    .rec-card-kat {
+      font-weight: 800;
+      font-size: .9rem;
+      color: var(--text);
+      flex: 1;
+      padding-right: 8px;
+    }
+    .rec-card-tutar {
+      font-weight: 800;
+      font-size: .95rem;
+      color: var(--blue);
+      white-space: nowrap;
+    }
+    .rec-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .rec-card-tarih {
+      font-size: .75rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .rec-card-aciklama {
+      font-size: .78rem;
+      color: var(--muted);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .rec-card-del {
+      background: #fee2e2; color: #dc2626; border: none;
+      border-radius: 6px; padding: 4px 10px; cursor: pointer;
+      font-size: .75rem; font-weight: 700; margin-left: auto;
+    }
+    .rec-mobile-pagination {
+      display: flex; gap: 6px; justify-content: center;
+      padding: 10px 0; flex-wrap: wrap;
+    }
 
-    /* Notification: full width bottom */
-    .notif { left: 12px; right: 12px; bottom: 12px; text-align: center; }
+    /* Pagination mobil */
+    .pagination { gap: 3px; padding: 8px 0; }
+    .pg-btn { min-width: 28px; height: 28px; font-size: .72rem; padding: 0 5px; }
+
+    /* Notif */
+    .notif { left: 8px; right: 8px; bottom: 10px; text-align: center; font-size: .82rem; }
   }
 </style>
 </head>
@@ -551,6 +621,9 @@
     </table>
     <div id="pagination" class="pagination"></div>
   </div>
+  <!-- Mobil kart görünümü -->
+  <div id="recordCards" class="record-cards"></div>
+  <div id="mobilePagination" class="rec-mobile-pagination"></div>
 </div>
 
 <!-- Notification -->
@@ -776,6 +849,48 @@ function renderTablePage() {
   }
   tbody.innerHTML = parts.join('');
   renderPagination(pages, total);
+  renderMobileCards(page, start, pages, total);
+}
+
+function renderMobileCards(page, start, pages, total) {
+  const container = document.getElementById('recordCards');
+  const mobPg = document.getElementById('mobilePagination');
+  if (!container) return;
+  if (total === 0) {
+    container.innerHTML = '<div style="text-align:center;color:var(--muted);padding:24px;font-size:.9rem">Kayıt bulunamadı.</div>';
+    mobPg.innerHTML = '';
+    return;
+  }
+  const parts = new Array(page.length);
+  for (let i = 0; i < page.length; i++) {
+    const r = page[i];
+    const badge = r.odeme === 'Nakit' ? 'badge-nakit'
+                : r.odeme === 'Kredi Kartı' ? 'badge-kart' : 'badge-havale';
+    parts[i] =
+      '<div class="rec-card">' +
+        '<div class="rec-card-header">' +
+          '<div class="rec-card-kat">' + esc(r.kategori) + '</div>' +
+          '<div class="rec-card-tutar">' + fmt(r.tutar) + '</div>' +
+        '</div>' +
+        '<div class="rec-card-meta">' +
+          '<span class="rec-card-tarih">📅 ' + (r.tarih ? r.tarih.split('-').reverse().join('.') : '') + '</span>' +
+          '<span class="badge ' + badge + '" style="font-size:.7rem">' + esc(r.odeme) + '</span>' +
+          (r.aciklama ? '<span class="rec-card-aciklama">· ' + esc(r.aciklama) + '</span>' : '') +
+          '<button class="rec-card-del" onclick="deleteRecord(' + r.id + ')">🗑</button>' +
+        '</div>' +
+      '</div>';
+  }
+  container.innerHTML = parts.join('');
+
+  // Mobile pagination
+  if (pages <= 1) { mobPg.innerHTML = ''; return; }
+  let ph = '<button class="pg-btn" onclick="goPage(' + (currentPage-1) + ')" ' + (currentPage===1?'disabled':'') + '>‹</button>';
+  const maxB = 5, s2 = Math.max(1, currentPage-2), e2 = Math.min(pages, s2+maxB-1);
+  for (let p = s2; p <= e2; p++)
+    ph += '<button class="pg-btn' + (p===currentPage?' active':'') + '" onclick="goPage(' + p + ')">' + p + '</button>';
+  ph += '<button class="pg-btn" onclick="goPage(' + (currentPage+1) + ')" ' + (currentPage===pages?'disabled':'') + '>›</button>';
+  ph += '<span class="pg-info">' + total.toLocaleString('tr-TR') + ' kayıt</span>';
+  mobPg.innerHTML = ph;
 }
 
 function renderPagination(pages, total) {
