@@ -1,0 +1,24 @@
+{
+  "name": "Harcama Takip Paneli",
+  "short_name": "Harcama",
+  "description": "Site giderlerini takip edin",
+  "start_url": "./harcamalar.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f0f4f8",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
