@@ -2,7 +2,14 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#3b82f6">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Harcama Takip">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>Harcama Takip</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -155,29 +162,7 @@
   .btn-gray   { background: var(--border); color: var(--text); }
   .btn:hover  { filter: brightness(1.08); }
 
-  .filter-row {
-    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-  }
-  .filter-row label { font-size: .85rem; font-weight: 600; color: var(--muted); }
-  .filter-row input[type="date"],
-  .filter-row select {
-    border: 1.5px solid var(--border); border-radius: 8px;
-    padding: 7px 10px; font-family: inherit; font-size: .85rem;
-    background: var(--input-bg); color: var(--text); outline: none;
-    transition: border-color .2s;
-  }
-  .filter-row input[type="date"]:focus,
-  .filter-row select:focus { border-color: var(--blue); }
-  .filter-row .range-wrap {
-    display: flex; align-items: center; gap: 6px;
-  }
-  .filter-row input[type="number"] {
-    border: 1.5px solid var(--border); border-radius: 8px;
-    padding: 7px 10px; font-family: inherit; font-size: .85rem;
-    background: var(--input-bg); color: var(--text); outline: none; width: 90px;
-    transition: border-color .2s;
-  }
-  .filter-row input[type="number"]:focus { border-color: var(--blue); }
+  /* filter-row replaced by filter-grid */
 
   /* ── Bottom Grid ── */
   .bottom-grid {
@@ -319,13 +304,92 @@
   }
   .notif.show { opacity: 1; transform: translateY(0); }
 
+  /* filter-grid: desktop yatay, mobil dikey */
+  .filter-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .filter-field { display: flex; flex-direction: column; gap: 4px; }
+  .filter-field label { font-size: .82rem; font-weight: 700; color: var(--muted); }
+  .filter-field input,
+  .filter-field select {
+    width: 100%;
+    border: 1.5px solid var(--border); border-radius: 8px;
+    padding: 8px 10px; font-family: inherit; font-size: .85rem;
+    background: var(--input-bg); color: var(--text); outline: none;
+  }
+  .filter-field input:focus,
+  .filter-field select:focus { border-color: var(--blue); }
+  .range-wrap { display: flex; align-items: center; gap: 6px; }
+  .range-wrap input { width: 100%; }
+
   @media (max-width: 900px) {
     .cards { grid-template-columns: 1fr 1fr; }
     .bottom-grid { grid-template-columns: 1fr; }
+    .filter-grid { grid-template-columns: 1fr 1fr; }
   }
-  @media (max-width: 580px) {
-    .cards { grid-template-columns: 1fr; }
-    .chart-wrap { flex-direction: column; }
+
+  @media (max-width: 600px) {
+    /* Sıfırla: taşmayı önle */
+    html, body { overflow-x: hidden; width: 100%; }
+    body { padding: 10px 10px; box-sizing: border-box; }
+
+    /* Header */
+    .page-title { font-size: 1rem; }
+    #themeBtn { padding: 6px 10px; font-size: .75rem; }
+
+    /* Kartlar: 2 sütun */
+    .cards { grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+    .cards .card:last-child { grid-column: 1 / -1; }
+    .card { padding: 12px 12px; border-radius: 12px; }
+    .card-value { font-size: 1.05rem; }
+    .card-label { font-size: .7rem; }
+    .card-icon { width: 32px; height: 32px; font-size: .9rem; }
+
+    /* Panel */
+    .panel { padding: 12px 10px; border-radius: 12px; margin-bottom: 10px; }
+    .panel-title { font-size: .9rem; margin-bottom: 10px; }
+
+    /* Arama + butonlar */
+    .filter-top { flex-direction: column; gap: 8px; }
+    .search-box { max-width: 100%; width: 100%; }
+    .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .btn-group .btn { font-size: .78rem; padding: 10px 4px; text-align: center; }
+
+    /* Filtre alanları: tek sütun */
+    .filter-grid { grid-template-columns: 1fr; gap: 8px; margin-top: 10px; }
+    .filter-field input,
+    .filter-field select { font-size: .9rem; padding: 10px 10px; }
+
+    /* Bottom grid */
+    .bottom-grid { grid-template-columns: 1fr; gap: 10px; }
+
+    /* Chart */
+    .chart-wrap { flex-direction: column; align-items: center; gap: 12px; }
+    .chart-canvas-wrap { width: 180px; height: 180px; }
+    .legend { grid-template-columns: repeat(2,1fr); max-height: 150px; width: 100%; }
+    .legend-item { font-size: .74rem; }
+
+    /* Form */
+    .form-group { margin-bottom: 10px; }
+    .form-group label { font-size: .82rem; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea { font-size: 1rem; padding: 11px 12px; border-radius: 10px; }
+    .btn-full { padding: 14px; font-size: 1rem; border-radius: 12px; }
+
+    /* Masa üstü tabloyu gizle, kart görünümünü göster */
+    .table-wrap table { display: none !important; }
+    #pagination { display: none !important; }
+    .record-cards { display: block; }
+
+    /* Pagination */
+    .pg-btn { min-width: 28px; height: 28px; font-size: .72rem; padding: 0 5px; }
+
+    /* Notif */
+    .notif { left: 8px; right: 8px; bottom: 10px; text-align: center; font-size: .82rem; }
   }
 </style>
 </head>
@@ -381,29 +445,36 @@
       <button class="btn" onclick="clearAllData()" style="background:#ef4444;color:#fff;">🗑️ Tümünü Sil</button>
     </div>
   </div>
-  <div class="filter-row">
-    <label>Tarih:</label>
-    <input type="date" id="filterDate" onchange="applyFilter()">
-    <label>Kategori:</label>
-    <select id="filterKategori" onchange="applyFilter()">
-      <option value="">Tümü</option>
-    </select>
-    <label>Ödeme Yöntemi:</label>
-    <select id="filterOdeme" onchange="applyFilter()">
-      <option value="">Tümü</option>
-      <option>Nakit</option>
-      <option>Kredi Kartı</option>
-      <option>Havale/EFT</option>
-    </select>
-    <label>Tutar:</label>
-    <div class="range-wrap">
-      <input type="number" id="minTutar" placeholder="Min" oninput="debounceSearch()">
-      <span>-</span>
-      <input type="number" id="maxTutar" placeholder="Max" oninput="debounceSearch()">
+  <div class="filter-grid">
+    <div class="filter-field">
+      <label>Tarih</label>
+      <input type="date" id="filterDate" onchange="applyFilter()">
     </div>
-    
-    <button class="btn btn-gray"  onclick="clearFilter()">Temizle</button>
+    <div class="filter-field">
+      <label>Kategori</label>
+      <select id="filterKategori" onchange="applyFilter()">
+        <option value="">Tümü</option>
+      </select>
+    </div>
+    <div class="filter-field">
+      <label>Ödeme Yöntemi</label>
+      <select id="filterOdeme" onchange="applyFilter()">
+        <option value="">Tümü</option>
+        <option>Nakit</option>
+        <option>Kredi Kartı</option>
+        <option>Havale/EFT</option>
+      </select>
+    </div>
+    <div class="filter-field">
+      <label>Tutar Aralığı</label>
+      <div class="range-wrap">
+        <input type="number" id="minTutar" placeholder="Min" oninput="debounceSearch()">
+        <span>–</span>
+        <input type="number" id="maxTutar" placeholder="Max" oninput="debounceSearch()">
+      </div>
+    </div>
   </div>
+  <button class="btn btn-gray" style="margin-top:10px;" onclick="clearFilter()">✕ Temizle</button>
 </div>
 
 <!-- Bottom Grid -->
@@ -487,6 +558,9 @@
     </table>
     <div id="pagination" class="pagination"></div>
   </div>
+  <!-- Mobil kart görünümü -->
+  <div id="recordCards" class="record-cards"></div>
+  <div id="mobilePagination" class="rec-mobile-pagination"></div>
 </div>
 
 <!-- Notification -->
@@ -712,6 +786,48 @@ function renderTablePage() {
   }
   tbody.innerHTML = parts.join('');
   renderPagination(pages, total);
+  renderMobileCards(page, start, pages, total);
+}
+
+function renderMobileCards(page, start, pages, total) {
+  const container = document.getElementById('recordCards');
+  const mobPg = document.getElementById('mobilePagination');
+  if (!container) return;
+  if (total === 0) {
+    container.innerHTML = '<div style="text-align:center;color:var(--muted);padding:24px;font-size:.9rem">Kayıt bulunamadı.</div>';
+    mobPg.innerHTML = '';
+    return;
+  }
+  const parts = new Array(page.length);
+  for (let i = 0; i < page.length; i++) {
+    const r = page[i];
+    const badge = r.odeme === 'Nakit' ? 'badge-nakit'
+                : r.odeme === 'Kredi Kartı' ? 'badge-kart' : 'badge-havale';
+    parts[i] =
+      '<div class="rec-card">' +
+        '<div class="rec-card-header">' +
+          '<div class="rec-card-kat">' + esc(r.kategori) + '</div>' +
+          '<div class="rec-card-tutar">' + fmt(r.tutar) + '</div>' +
+        '</div>' +
+        '<div class="rec-card-meta">' +
+          '<span class="rec-card-tarih">📅 ' + (r.tarih ? r.tarih.split('-').reverse().join('.') : '') + '</span>' +
+          '<span class="badge ' + badge + '" style="font-size:.7rem">' + esc(r.odeme) + '</span>' +
+          (r.aciklama ? '<span class="rec-card-aciklama">· ' + esc(r.aciklama) + '</span>' : '') +
+          '<button class="rec-card-del" onclick="deleteRecord(' + r.id + ')">🗑</button>' +
+        '</div>' +
+      '</div>';
+  }
+  container.innerHTML = parts.join('');
+
+  // Mobile pagination
+  if (pages <= 1) { mobPg.innerHTML = ''; return; }
+  let ph = '<button class="pg-btn" onclick="goPage(' + (currentPage-1) + ')" ' + (currentPage===1?'disabled':'') + '>‹</button>';
+  const maxB = 5, s2 = Math.max(1, currentPage-2), e2 = Math.min(pages, s2+maxB-1);
+  for (let p = s2; p <= e2; p++)
+    ph += '<button class="pg-btn' + (p===currentPage?' active':'') + '" onclick="goPage(' + p + ')">' + p + '</button>';
+  ph += '<button class="pg-btn" onclick="goPage(' + (currentPage+1) + ')" ' + (currentPage===pages?'disabled':'') + '>›</button>';
+  ph += '<span class="pg-info">' + total.toLocaleString('tr-TR') + ' kayıt</span>';
+  mobPg.innerHTML = ph;
 }
 
 function renderPagination(pages, total) {
@@ -953,6 +1069,13 @@ function importExcel() {
     else        reader.readAsArrayBuffer(file);
   };
   input.click();
+}
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
 }
 </script>
 </body>
